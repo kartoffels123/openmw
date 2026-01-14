@@ -1,5 +1,6 @@
 #include "controller.hpp"
 
+#include <osg/Image>
 #include <osg/Material>
 #include <osg/MatrixTransform>
 #include <osg/TexMat>
@@ -546,6 +547,21 @@ namespace NifOsg
         }
     }
 
+    namespace
+    {
+        // Shared flip TexMat for TOP_LEFT origin textures (BC6H/BC7)
+        osg::ref_ptr<osg::TexMat> getFlipTexMat()
+        {
+            static osg::ref_ptr<osg::TexMat> sFlipTexMat = []() {
+                osg::Matrixf flipMat;
+                flipMat.preMultTranslate(osg::Vec3f(0.f, 1.f, 0.f));
+                flipMat.preMultScale(osg::Vec3f(1.f, -1.f, 1.f));
+                return new osg::TexMat(flipMat);
+            }();
+            return sFlipTexMat;
+        }
+    }
+
     FlipController::FlipController(
         const Nif::NiFlipController* ctrl, const std::vector<osg::ref_ptr<osg::Texture2D>>& textures)
         : mTexSlot(0) // always affects diffuse
@@ -583,6 +599,18 @@ namespace NifOsg
             else
                 curTexture = int(mData.interpKey(getInputValue(nv))) % mTextures.size();
             stateset->setTextureAttribute(mTexSlot, mTextures[curTexture]);
+
+            // Handle mixed TOP_LEFT/BOTTOM_LEFT texture origins (e.g., BC6H/BC7 mixed with BC1/BC3)
+            // Check at runtime since image may not be loaded at construction time
+            const osg::Texture2D* texture = mTextures[curTexture].get();
+            if (texture)
+            {
+                const osg::Image* image = texture->getImage(0);
+                if (image && image->getOrigin() == osg::Image::TOP_LEFT)
+                    stateset->setTextureAttributeAndModes(mTexSlot, getFlipTexMat(), osg::StateAttribute::ON);
+                else
+                    stateset->removeTextureAttribute(mTexSlot, osg::StateAttribute::TEXMAT);
+            }
         }
     }
 
