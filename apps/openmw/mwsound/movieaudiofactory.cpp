@@ -1,5 +1,7 @@
 #include "movieaudiofactory.hpp"
 
+#include <algorithm>
+
 #include <osg-ffmpeg-videoplayer/audiodecoder.hpp>
 #include <osg-ffmpeg-videoplayer/libavutildefines.hpp>
 #include <osg-ffmpeg-videoplayer/videostate.hpp>
@@ -7,6 +9,7 @@
 #include "../mwbase/environment.hpp"
 #include "../mwbase/soundmanager.hpp"
 
+#include "sound.hpp"
 #include "sounddecoder.hpp"
 
 namespace MWSound
@@ -165,7 +168,20 @@ namespace MWSound
         }
 
         decoder->mAudioTrack = sound;
+        mAudioTrack = sound;
+
+        // Apply any pre-set volume
+        if (mVolume != 1.0f)
+            sound->setVolume(mVolume);
+
         return decoder;
+    }
+
+    void MovieAudioFactory::setVolume(float volume)
+    {
+        mVolume = std::max(0.0f, std::min(1.0f, volume));
+        if (mAudioTrack)
+            mAudioTrack->setVolume(mVolume);
     }
 
 }

@@ -23,6 +23,7 @@
 #include "types/types.hpp"
 #include "uibindings.hpp"
 #include "vfsbindings.hpp"
+#include "videobindings.hpp"
 #include "worldbindings.hpp"
 
 namespace MWLua
@@ -62,6 +63,7 @@ namespace MWLua
             { "openmw.core", initCorePackage(context) },
             { "openmw.types", initTypesPackage(context) },
             { "openmw.nearby", initNearbyPackage(context) },
+            { "openmw.video", initVideoPackage(context) },
         };
     }
 
