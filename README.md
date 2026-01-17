@@ -1,6 +1,14 @@
 OpenMW
 ======
 
+NOTE: This branch is a buggy meme. All it does is allow unsafe playback of MP4 with spatial audio and rendering onto an object in the scene. It is somewhat based on how WebGL does it. The program crashes when the audio finishes playback. You have been warned.
+
+Example:
+<video src="demo_video/demo_meme.mp4" controls></video>
+
+
+
+
 OpenMW is an open-source open-world RPG game engine that supports playing Morrowind by Bethesda Softworks. You need to own the game for OpenMW to play Morrowind.
 
 OpenMW also comes with OpenMW-CS, a replacement for Bethesda's Construction Set.
