@@ -1,10 +1,11 @@
 OpenMW
 ======
 
-NOTE: This branch is a buggy meme. All it does is allow unsafe playback of MP4 with spatial audio and rendering onto an object in the scene. It is somewhat based on how WebGL does it. The program crashes when the audio finishes playback. You have been warned.
+## NOTE: This branch is a buggy meme. All it does is allow unsafe playback of MP4 with spatial audio and rendering onto an object in the scene. It is somewhat based on how WebGL does it. The program crashes when the audio finishes playback. You have been warned.
 
-Example:
-<video src="demo_video/demo_meme.mp4" controls></video>
+## Example:
+https://github.com/user-attachments/assets/c55bcb63-b2eb-4a0b-a7a9-8f432643b5d6
+
 
 
 
