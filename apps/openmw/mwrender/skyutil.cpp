@@ -65,10 +65,10 @@ namespace
         geom->setVertexArray(verts);
 
         osg::ref_ptr<osg::Vec2Array> texcoords = new osg::Vec2Array;
-        texcoords->push_back(osg::Vec2f(0, 1));
         texcoords->push_back(osg::Vec2f(0, 0));
-        texcoords->push_back(osg::Vec2f(1, 0));
+        texcoords->push_back(osg::Vec2f(0, 1));
         texcoords->push_back(osg::Vec2f(1, 1));
+        texcoords->push_back(osg::Vec2f(1, 0));
 
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
         colors->push_back(osg::Vec4(1.f, 1.f, 1.f, 1.f));

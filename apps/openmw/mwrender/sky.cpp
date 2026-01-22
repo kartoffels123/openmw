@@ -396,9 +396,12 @@ namespace MWRender
 
         osg::ref_ptr<osg::StateSet> stateset = mRainParticleSystem->getOrCreateStateSet();
 
-        constexpr VFS::Path::NormalizedView raindropImage("textures/tx_raindrop_01.dds");
-        osg::ref_ptr<osg::Texture2D> raindropTex
-            = new osg::Texture2D(mSceneManager->getImageManager()->getImage(raindropImage));
+        constexpr VFS::Path::NormalizedView raindropFilename("textures/tx_raindrop_01.dds");
+        osg::ref_ptr<osg::Image> raindropImage = mSceneManager->getImageManager()->getImage(raindropFilename);
+        // FIXME: should flip particle UV, but osgParticle is sucky
+        // FIXME: This WILL lead to re-flipping, need to store the image or texture in the class
+        raindropImage->flipVertical();
+        osg::ref_ptr<osg::Texture2D> raindropTex = new osg::Texture2D(raindropImage);
         raindropTex->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE);
         raindropTex->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE);
 

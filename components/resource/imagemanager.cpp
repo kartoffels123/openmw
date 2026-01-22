@@ -50,8 +50,7 @@ namespace Resource
     ImageManager::ImageManager(const VFS::Manager* vfs, double expiryDelay)
         : ResourceManager(vfs, expiryDelay)
         , mWarningImage(createWarningImage())
-        , mOptions(new osgDB::Options("dds_flip dds_dxt1_detect_rgba ignoreTga2Fields"))
-        , mOptionsNoFlip(new osgDB::Options("dds_dxt1_detect_rgba ignoreTga2Fields"))
+        , mOptions(new osgDB::Options("dds_dxt1_detect_rgba ignoreTga2Fields"))
     {
     }
 
@@ -136,8 +135,7 @@ namespace Resource
                 stream->seekg(0);
             }
 
-            osgDB::ReaderWriter::ReadResult result
-                = reader->readImage(*stream, disableFlip ? mOptionsNoFlip : mOptions);
+            osgDB::ReaderWriter::ReadResult result = reader->readImage(*stream, mOptions);
             if (!result.success())
             {
                 Log(Debug::Error) << "Error loading " << path << ": " << result.message() << " code "
@@ -185,6 +183,11 @@ namespace Resource
                             newImage->setColor(image->getColor(s, t, r), s, t, r);
                 image = newImage;
             }
+
+            // For DDS this should be disabled (this expects OSGoS with BC7-related fixes)
+            // This will also mess with non-S3TC compressed bottom-left convention KTX
+            if (!disableFlip && image->getOrigin() == osg::Image::BOTTOM_LEFT)
+                image->flipVertical();
 
             mCache->addEntryToObjectCache(path.value(), image);
             return image;

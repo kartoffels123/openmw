@@ -50,10 +50,10 @@ namespace
         geom->setVertexArray(verts);
 
         osg::ref_ptr<osg::Vec2Array> texcoords = new osg::Vec2Array;
-        texcoords->push_back(osg::Vec2f(leftTexCoord, 1.f - bottomTexCoord));
-        texcoords->push_back(osg::Vec2f(leftTexCoord, 1.f - topTexCoord));
-        texcoords->push_back(osg::Vec2f(rightTexCoord, 1.f - topTexCoord));
-        texcoords->push_back(osg::Vec2f(rightTexCoord, 1.f - bottomTexCoord));
+        texcoords->push_back(osg::Vec2f(leftTexCoord, bottomTexCoord));
+        texcoords->push_back(osg::Vec2f(leftTexCoord, topTexCoord));
+        texcoords->push_back(osg::Vec2f(rightTexCoord, topTexCoord));
+        texcoords->push_back(osg::Vec2f(rightTexCoord, bottomTexCoord));
 
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
         colors->push_back(osg::Vec4(1.f, 1.f, 1.f, 1.f));

@@ -697,7 +697,7 @@ namespace MWRender
 
         constexpr VFS::Path::NormalizedView waterImage("textures/omw/water_nm.png");
         osg::ref_ptr<osg::Texture2D> normalMap(
-            new osg::Texture2D(mResourceSystem->getImageManager()->getImage(waterImage)));
+            new osg::Texture2D(mResourceSystem->getImageManager()->getImage(waterImage, true)));
         normalMap->setWrap(osg::Texture::WRAP_S, osg::Texture::REPEAT);
         normalMap->setWrap(osg::Texture::WRAP_T, osg::Texture::REPEAT);
         mResourceSystem->getSceneManager()->applyFilterSettings(normalMap);
